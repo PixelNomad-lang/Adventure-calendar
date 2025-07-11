@@ -1,19 +1,27 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+import { NextResponse } from 'next/server'
 
-const isProtectedRoute = createRouteMatcher([
-  "/dashboard(.*)",
-  "/events(.*)",
-  "/meetings(.*)",
-  "/availability(.*)",
-]);
+export async function middleware(req) {
+  const res = NextResponse.next()
+  const supabase = createMiddlewareClient({ req, res })
+  
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
-export default clerkMiddleware((auth, req) => {
-  if (!auth().userId && isProtectedRoute(req)) {
-    // Add custom logic to run before redirecting
+  // Protected routes
+  const protectedPaths = ['/dashboard', '/events', '/meetings', '/availability']
+  const isProtectedRoute = protectedPaths.some(path => 
+    req.nextUrl.pathname.startsWith(path)
+  )
 
-    return auth().redirectToSignIn();
+  if (isProtectedRoute && !session) {
+    const redirectUrl = new URL('/auth/signin', req.url)
+    return NextResponse.redirect(redirectUrl)
   }
-});
+
+  return res
+}
 
 export const config = {
   matcher: [

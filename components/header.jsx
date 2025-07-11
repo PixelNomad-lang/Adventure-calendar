@@ -29,8 +29,23 @@ async function Header() {
             <span className="hidden sm:inline">Create Event</span>
           </Button>
         </Link>
-        <SignedOut>
-          <SignInButton forceRedirectUrl="/dashboard">
+        {!loading && (
+          <>
+            {!user ? (
+              <Link href="/auth/signin">
+                <Button variant="outline">Login</Button>
+              </Link>
+            ) : (
+              <UserMenu />
+            )}
+          </>
+        )}
+      </div>
+    </nav>
+  );
+}
+
+export default Header;
             <Button variant="outline">Login</Button>
           </SignInButton>
         </SignedOut>

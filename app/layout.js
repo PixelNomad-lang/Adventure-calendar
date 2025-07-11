@@ -1,6 +1,6 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
+import { SupabaseProvider } from "@/components/providers/supabase-provider";
 import Header from "@/components/header";
 import CreateEventDrawer from "@/components/create-event";
 
@@ -13,7 +13,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+    <SupabaseProvider>
       <html lang="en">
         <body className={inter.className}>
           <Header />
@@ -28,6 +28,6 @@ export default function RootLayout({ children }) {
           <CreateEventDrawer />
         </body>
       </html>
-    </ClerkProvider>
+    </SupabaseProvider>
   );
 }

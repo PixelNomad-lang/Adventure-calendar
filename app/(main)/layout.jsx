@@ -1,10 +1,10 @@
-"use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Calendar, BarChart, Users, Clock } from "lucide-react";
 import { BarLoader } from "react-spinners";
-import { useUser } from "@clerk/nextjs";
+import { useSupabase } from "@/components/providers/supabase-provider";
+
+"use client";
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: BarChart },
@@ -15,11 +15,11 @@ const navItems = [
 
 export default function AppLayout({ children }) {
   const pathname = usePathname();
-  const { isLoaded } = useUser();
+  const { loading } = useSupabase();
 
   return (
     <>
-      {!isLoaded && <BarLoader width={"100%"} color="#36d7b7" />}
+      {loading && <BarLoader width={"100%"} color="#36d7b7" />}
       <div className="flex flex-col h-screen bg-blue-50 md:flex-row">
         {/* Sidebar for medium screens and up */}
         <aside className="hidden md:block w-64 bg-white">
