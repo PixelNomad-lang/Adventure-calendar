@@ -42,7 +42,7 @@ export async function getUserByUsername(username) {
       imageUrl: true,
       events: {
         where: {
-          isPrivate: false,
+          eventType: "PUBLIC",
         },
         orderBy: {
           createdAt: "desc",
@@ -52,7 +52,7 @@ export async function getUserByUsername(username) {
           title: true,
           description: true,
           duration: true,
-          isPrivate: true,
+          eventType: true,
           _count: {
             select: { bookings: true },
           },

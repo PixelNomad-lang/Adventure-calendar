@@ -77,19 +77,27 @@ export default function BookingForm({ event, availability }) {
     return (
       <div className="text-center p-10 border bg-white">
         <h2 className="text-2xl font-bold mb-4">Booking successful!</h2>
+        <p className="mb-4">Your meeting has been scheduled successfully.</p>
         {data.meetLink && (
           <p>
-            Join the meeting:{" "}
-            <a
-              href={data.meetLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
-            >
-              {data.meetLink}
-            </a>
+            <strong>Meeting Details:</strong><br />
+            {data.meetLink.startsWith("http") ? (
+              <a
+                href={data.meetLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:underline"
+              >
+                {data.meetLink}
+              </a>
+            ) : (
+              <span className="text-gray-700">{data.meetLink}</span>
+            )}
           </p>
         )}
+        <p className="mt-4 text-sm text-gray-600">
+          You will receive a confirmation email with all the details.
+        </p>
       </div>
     );
   }

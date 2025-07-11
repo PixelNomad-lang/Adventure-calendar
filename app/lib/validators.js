@@ -51,8 +51,21 @@ export const eventSchema = z.object({
     .min(1, "Description is required")
     .max(500, "Description must be 500 characters or less"),
   duration: z.number().int().positive("Duration must be a positive number"),
-
-  isPrivate: z.boolean(),
+  eventType: z.enum(["private", "public", "in-person"], {
+    required_error: "Event type is required",
+  }),
+  // Public event fields
+  participants: z.array(z.object({
+    name: z.string().min(1, "Name is required"),
+    email: z.string().email("Invalid email"),
+  })).optional(),
+  // Video/Chat options
+  hasVideo: z.boolean().default(false),
+  videoProvider: z.enum(["google-meet", "zoom"]).optional(),
+  chatProvider: z.enum(["whatsapp", "teams"]).optional(),
+  // In-person event fields
+  address: z.string().optional(),
+  contactNumber: z.string().optional(),
 });
 
 export const bookingSchema = z.object({

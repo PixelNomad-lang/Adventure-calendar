@@ -35,7 +35,16 @@ model Event {
   userId      String
   user        User     @relation("UserEvents", fields: [userId], references: [id])
   bookings    Booking[]
-  isPrivate   Boolean  @default(true)
+  eventType   EventType @default(PRIVATE)
+  // Public event fields
+  participants Json?    // Array of {name, email} objects
+  // Video/Chat options
+  hasVideo    Boolean  @default(false)
+  videoProvider String? // "google-meet" or "zoom"
+  chatProvider String?  // "whatsapp" or "teams"
+  // In-person event fields
+  address     String?
+  contactNumber String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
@@ -88,4 +97,10 @@ enum DayOfWeek {
   FRIDAY
   SATURDAY
   SUNDAY
+}
+
+enum EventType {
+  PRIVATE
+  PUBLIC
+  IN_PERSON
 }

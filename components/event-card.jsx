@@ -58,7 +58,7 @@ export default function EventCard({ event, username, isPublic = false }) {
         <CardTitle className="text-2xl">{event.title}</CardTitle>
         <CardDescription className="flex justify-between">
           <span>
-            {event.duration} mins | {event.isPrivate ? "Private" : "Public"}
+            {event.duration} mins | {event.eventType?.charAt(0).toUpperCase() + event.eventType?.slice(1) || "Private"}
           </span>
           <span>{event._count.bookings} Bookings</span>
         </CardDescription>
